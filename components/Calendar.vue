@@ -33,7 +33,7 @@
       </div>
       <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
         <div class="grid w-full h-[75vh] grid-cols-7 grid-rows-6 gap-px">
-          <button @click="$emit('add'); store.updateDay(day) " v-for="day in dates" :key="day.value" type="button" :class="[day.split('-').slice(-4).reverse().pop().replace(/^0/, '') == currentMonth ? 'bg-white' : 'bg-gray-100', 'flex h-auto flex-col px-3 py-2 hover:bg-gray-100']"> 
+          <button @click="$emit('add'); store.updateDay(day) " v-for="day in dates" :key="day.value" type="button" :class="[day.split('-').slice(-4).reverse().pop().replace(/^0/, '') == currentMonth ? 'bg-white' : 'bg-gray-100 pointer-events-none', 'flex h-auto flex-col px-3 py-2 hover:bg-gray-100']"> 
               <time :datetime="day" :class="[day == currentDate && 'flex h-6 w-6 items-center justify-center rounded-full bg-orange-400', 'ml-auto']">{{ day.split('-').slice(-2).reverse().pop().replace(/^0/, '') }}</time>  <!--  -->
 
             <!-- <span class="sr-only">{{ day.events.length }} events</span>
@@ -80,7 +80,7 @@ const getDays = () => {
   let firstDayOfMonth = new Date(currentYear.value, (parseInt(currentMonth.value) - 1), 1).getDay(),
   lastDateOfMonth = new Date(currentYear.value, currentMonth.value, 0).getDate(),
   lastDayOfMonth = new Date(currentYear.value, (parseInt(currentMonth.value) + 1), lastDateOfMonth).getDay(),
-  lastDateOfLastMonth = new Date(currentYear.value,currentMonth.value, 0).getDate()
+  lastDateOfLastMonth = new Date(currentYear.value, parseInt(currentMonth.value) + 1, 0).getDate()
 
   // Get our dates and days before/after current month
   for(let i = firstDayOfMonth; i > 0; i--)
@@ -96,15 +96,20 @@ const getDays = () => {
     datesCurrent.push( (parseInt(currentMonth.value)) + '-' + (i) + '-' + currentYear.value)
   } 
 
-  datesCurrent = datesCurrent.concat(datesAfter)
-
-  for(let i = lastDayOfMonth; i < datesCurrent.length; i++)
+  datesCurrent = datesBefore.concat(datesCurrent)
+  let j = 0
+  for(let i = lastDayOfMonth; i < 20; i++)
   {
-    datesAfter.push( (parseInt(currentMonth.value) + 1) + '-' + (i - lastDayOfMonth + 1) + '-' + currentYear.value)
+    if(datesCurrent.length + j < 42)
+    {
+      datesAfter.push( (parseInt(currentMonth.value) + 1) + '-' + (i - lastDayOfMonth + 1) + '-' + currentYear.value)
+    }
+    console.log(j)
+    j++
   }
 
   // Combine results
-  dates.value = datesBefore.concat(datesCurrent)
+  dates.value = datesCurrent.concat(datesAfter)
   // console.log(dates.value)
 }
 getDays()
