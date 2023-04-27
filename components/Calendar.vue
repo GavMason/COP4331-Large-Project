@@ -33,7 +33,7 @@
       </div>
       <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
         <div class="grid w-full h-[75vh] grid-cols-7 grid-rows-6 gap-px">
-          <button @click="$emit('add'); store.updateDay(day) " v-for="day in dates" :key="day.value" type="button" :class="[day.split('-').slice(-4).reverse().pop().replace(/^0/, '') === currentMonth ? 'bg-white' : 'bg-gray-100', 'flex h-auto flex-col px-3 py-2 hover:bg-gray-100']"> 
+          <button @click="$emit('add'); store.updateDay(day) " v-for="day in dates" :key="day.value" type="button" :class="[day.split('-').slice(-4).reverse().pop().replace(/^0/, '') == currentMonth ? 'bg-white' : 'bg-gray-100', 'flex h-auto flex-col px-3 py-2 hover:bg-gray-100']"> 
               <time :datetime="day" :class="[day == currentDate && 'flex h-6 w-6 items-center justify-center rounded-full bg-orange-400', 'ml-auto']">{{ day.split('-').slice(-2).reverse().pop().replace(/^0/, '') }}</time>  <!--  -->
 
             <!-- <span class="sr-only">{{ day.events.length }} events</span>
@@ -56,21 +56,15 @@ const store = useCounterStore()
 const months = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"]
 
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
 let date = new Date()
 let currentDay = date.toLocaleString("default", {day: "2-digit"})//.padStart(2, '0');
 let currentMonth = ref(date.toLocaleString("default", {month: "numeric"})) //.padStart(2,"0");
 let currentYear = ref(date.toLocaleString("default", {year: "numeric"})) 
 let currentDate = currentMonth.value + '-' + currentDay + '-' + currentYear.value
 
-
-// const selectedDay = days.find((day) => day.isSelected)
-
-// console.log(parseInt(currentMonth.value) + 1)
-
-// console.log(getDays())
 let dates = ref([])
-// let datesCurrent = []
-
 
 const getDays = () => {
   // Clear Array
@@ -81,43 +75,44 @@ const getDays = () => {
   let datesBefore = []
   let datesAfter = []
 
+
   // Get date baselines
-  let firstDayOfMonth = new Date(currentYear.value, currentMonth.value, 1).getDay()
-  let lastDateOfMonth = new Date(currentYear.value, parseInt(currentMonth.value) + 1, 0).getDate()
-  let lastDayOfMonth = new Date(currentYear.value, currentMonth.value, lastDateOfMonth).getDay()
-  let lastDateOfLastMonth = new Date(currentYear.value, currentMonth.value, 0).getDate()
+  let firstDayOfMonth = new Date(currentYear.value, (parseInt(currentMonth.value) - 1), 1).getDay(),
+  lastDateOfMonth = new Date(currentYear.value, currentMonth.value, 0).getDate(),
+  lastDayOfMonth = new Date(currentYear.value, (parseInt(currentMonth.value) + 1), lastDateOfMonth).getDay(),
+  lastDateOfLastMonth = new Date(currentYear.value,currentMonth.value, 0).getDate()
 
   // Get our dates and days before/after current month
   for(let i = firstDayOfMonth; i > 0; i--)
   {
-    datesBefore.push((parseInt(currentMonth.value) - 1) + '-' + (parseInt(lastDateOfLastMonth) - i + 1) + '-' + currentYear.value)
+    datesBefore.push((parseInt(currentMonth.value) - 1) + '-' + (lastDateOfLastMonth - i + 1) + '-' + currentYear.value)
   }
-  // console.log(datesBefore)
+  console.log(currentMonth.value)
+  console.log(firstDayOfMonth)
+  console.log((lastDateOfLastMonth))
 
-  for(let i=1; i <= lastDateOfMonth - 1; i++)
+  for(let i=1; i <= lastDateOfMonth; i++)
   {
-    datesCurrent.push( currentMonth.value + '-' + (i) + '-' + currentYear.value)
+    datesCurrent.push( (parseInt(currentMonth.value)) + '-' + (i) + '-' + currentYear.value)
   } 
 
-  for(let i = lastDayOfMonth; i < 6; i++)
+  datesCurrent = datesCurrent.concat(datesAfter)
+
+  for(let i = lastDayOfMonth; i < datesCurrent.length; i++)
   {
     datesAfter.push( (parseInt(currentMonth.value) + 1) + '-' + (i - lastDayOfMonth + 1) + '-' + currentYear.value)
   }
-  console.log(currentDate.split('-').slice(-4).reverse().pop().replace(/^0/, ''))
-  // console.log(lastDateOfMonth)
-  // console.log(lastDayOfMonth)
 
   // Combine results
-  datesCurrent = datesCurrent.concat(datesAfter)
   dates.value = datesBefore.concat(datesCurrent)
-  console.log(dates.value)
+  // console.log(dates.value)
 }
 getDays()
 
 function addMonth(){
   currentMonth.value = (parseInt(currentMonth.value) + 1).toString()
-  if(currentMonth.value > 12){
-    currentMonth.value = 1
+  if(currentMonth.value > 11){
+    currentMonth.value = 0
     currentYear.value = (parseInt(currentYear.value) + 1).toString()
   }
   getDays()
@@ -125,8 +120,8 @@ function addMonth(){
 
 function subMonth(){
   currentMonth.value = (parseInt(currentMonth.value) - 1).toString()
-  if(currentMonth.value < 1){
-    currentMonth.value = 12
+  if(currentMonth.value < 0){
+    currentMonth.value = 11
     currentYear.value = (parseInt(currentYear.value) - 1).toString()
   }
   getDays()
