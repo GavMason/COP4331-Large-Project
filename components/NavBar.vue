@@ -1,12 +1,12 @@
 <template>
-  <header class="flex justify-left justify-between bg-orange-300 p-4">
+  <header class="flex justify-left justify-between bg-orange-300 p-1">
     <div>
       <button
         @click="isOpen = !isOpen"
         type="button"
         class="dark:hover:bg-black-900 dark:hover:text-white hover:bg-yellow-800"
       >
-        <svg viewBox="0 0 24 24" class="m-2 w-8 h-8 fill-current">
+        <svg viewBox="0 0 24 24" class="m-2 w-6 h-6 fill-current">
           <path
             fill-rule="evenodd"
             d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
@@ -40,7 +40,7 @@
         </svg>
       </button>
       <div class="pb-7 flex justify-center">
-        <a href="Logon/SignIn">
+        <a href="User/SignIn">
           <img
             class="w-20 h-20"
             src="../assets/journal.png"

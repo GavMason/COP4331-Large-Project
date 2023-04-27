@@ -25,7 +25,7 @@
           allowing you to store your daily insights.
         </p>
         <div class="m-5 flex space-x-4">
-          <a href="Logon/SignIn">
+          <a href="User/SignIn">
             <button
               type="submit"
               class="transition ease-in-out duration-300 hover:-translate-y-1 bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -33,7 +33,7 @@
               Log In
             </button>
           </a>
-          <a href="Logon/Register">
+          <a href="User/Register">
             <button
               type="submit"
               class="transition ease-in-out duration-300 hover:-translate-y-1 bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
