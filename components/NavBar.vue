@@ -15,7 +15,7 @@
           </svg>
         </button>
       </div>
-      <p class="text-center mx-auto my-auto font-bold text-xl">My Journal</p>
+      <p class="text-center mx-auto my-auto pr-8 font-bold text-xl">My Journal</p>
     </header>
     <div
       class="transform absolute ease-in-out transition-all duration-300 flex flex-col justify-between top-0 h-screen bg-orange-300"
