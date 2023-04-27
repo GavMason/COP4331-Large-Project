@@ -78,7 +78,39 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+const username = ref('')
+const password = ref('')
+
+function handleSubmit(){
+  const data = {
+    username: username.value,
+    password: password.value
+  }
+
+  // Send data to backend here!
+  fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if(response.ok){
+      console.log('Login Successful');
+    }
+    else{
+      console.log('Login Failed');
+    }
+  })
+  .catch(error => {
+    console.error('Error during login:', error);
+  });
+}
+</script>
+
 
 <style>
 @import "/node_modules/animate.css";

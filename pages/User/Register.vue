@@ -106,7 +106,82 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+const firstName = ref('')
+const lastName = ref('')
+const username = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+
+function handleSubmit(){
+  const data = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    username: username.value,
+    password: password.value,
+    confirmPassword: confirmPassword.value
+  }
+
+  if(password.value !== confirmPassword.value){
+    console.log("Passwords do not match");
+    // you can display an error message to the user here
+    return;
+  }
+
+  if(!validatePassword(password.value)){
+    //Do not send to backend just yet. Ask the user to enter a valid password
+    console.log("Password does not meet validation requirements");
+    return;
+  }
+
+  // Send data to backend here!
+  fetch('/api/register',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if(response.ok){
+      console.log("Registration Successful");
+    }
+    else{
+      console.log("Registration Failed");
+    }
+  })
+  .catch(error => {
+    console.log('Error during registration:', error);
+  });
+}
+
+function validatePassword(password){
+  const regex = {
+    specialChar: /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/,
+    number: /\d/,
+    uppercase: /[A-Z]/
+  }
+
+  if (!regex.specialChar.test(password)) {
+    alert('Password must contain at least one special character');
+    return false;
+  }
+
+  if (!regex.number.test(password)) {
+    alert('Password must contain at least one number');
+    return false;
+  }
+
+  if (!regex.uppercase.test(password)) {
+    alert('Password must contain at least one uppercase letter');
+    return false;
+  }
+
+  return true;
+}
+
+</script>
 
 <style>
 @import "/node_modules/animate.css"
