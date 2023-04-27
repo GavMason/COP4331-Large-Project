@@ -131,6 +131,7 @@ function handleSubmit(){
 
   if(!validatePassword(password.value)){
     //Do not send to backend just yet. Ask the user to enter a valid password
+    console.log("Password does not meet validation requirements");
     return;
   }
 
@@ -156,8 +157,28 @@ function handleSubmit(){
 }
 
 function validatePassword(password){
-  const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[a-zA-Z\d\W]{8,}$/;
-  return pattern.test(password);
+  const regex = {
+    specialChar: /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/,
+    number: /\d/,
+    uppercase: /[A-Z]/
+  }
+
+  if (!regex.specialChar.test(password)) {
+    alert('Password must contain at least one special character');
+    return false;
+  }
+
+  if (!regex.number.test(password)) {
+    alert('Password must contain at least one number');
+    return false;
+  }
+
+  if (!regex.uppercase.test(password)) {
+    alert('Password must contain at least one uppercase letter');
+    return false;
+  }
+
+  return true;
 }
 
 </script>
