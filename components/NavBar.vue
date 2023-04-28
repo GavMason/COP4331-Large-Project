@@ -51,6 +51,7 @@
           </a>
         </div>
         <button
+          @click="$emit('add'); store.updateDay(currentDate) "
           type="button"
           class="w-full flex justify-around p-6 border-dark dark:hover:bg-black-900 dark:hover:text-white hover:bg-yellow-800"
         >
@@ -122,8 +123,18 @@
 </template>
 
 <script setup>
+  // Set up store
+  import { useCounterStore } from '@/stores/store'
+  const store = useCounterStore()
 
+  // Modal open state
   let isOpen = ref(false)
-  console.log(isOpen.value)
+  
+  // Get current date for new entry
+  let date = new Date()
+  let currentDay = date.toLocaleString("default", {day: "2-digit"})//.padStart(2, '0');
+  let currentMonth = ref(date.toLocaleString("default", {month: "numeric"})) //.padStart(2,"0");
+  let currentYear = ref(date.toLocaleString("default", {year: "numeric"})) 
+  let currentDate = currentMonth.value + '-' + currentDay + '-' + currentYear.value
 
 </script>
