@@ -27,15 +27,13 @@
             You have been successfully signed out
           </p>
         </div>
-        <div
+        <a href="/"
           class="justify-center grid gap-3 mt-4 transition ease-in-out duration-300 hover:-translate-y-1 bg-red-400 hover:bg-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          <a href="SignIn">
-            <button type="submit" class="text-white text-center">
-              Return to Main Page
-            </button>
+          <button type="submit" class="text-white text-center">
+            Return to Main Page
+          </button>
           </a>
-        </div>
       </div>
     </div>
   </div>

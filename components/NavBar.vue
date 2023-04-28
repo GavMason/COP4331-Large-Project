@@ -94,7 +94,7 @@
             </svg>
           </button>
         </a>
-        <a href="SignOut">
+        <a href="User/SignOut">
           <button
             type="button"
             class="w-full flex justify-around p-6 border-dark dark:hover:bg-black-900 dark:hover:text-white hover:bg-yellow-800"
@@ -121,12 +121,8 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-};
+<script setup>
+
+  let isOpen = ref(false)
+
 </script>
