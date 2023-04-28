@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <header class="flex justify-left justify-between bg-orange-300 p-1">
       <div>
         <button
@@ -18,7 +18,7 @@
       <p class="text-center mx-auto my-auto pr-8 font-bold text-xl">My Journal</p>
     </header>
     <div
-      class="transform absolute ease-in-out transition-all duration-300 flex flex-col justify-between top-0 h-screen bg-orange-300"
+      class="transform absolute z-10 ease-in-out transition-all duration-300 flex flex-col justify-between top-0 h-screen bg-orange-300"
       :class="isOpen ? '-translate-x-0 w-64' : '-translate-x-full'"
     >
       <div>
@@ -124,5 +124,6 @@
 <script setup>
 
   let isOpen = ref(false)
+  console.log(isOpen.value)
 
 </script>

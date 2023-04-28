@@ -34,7 +34,7 @@
       <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
         <div class="grid w-full h-[75vh] grid-cols-7 grid-rows-6 gap-px">
           <button @click="$emit('add'); store.updateDay(day) " v-for="day in dates" :key="day.value" type="button" :class="[day.split('-').slice(-4).reverse().pop().replace(/^0/, '') == currentMonth ? 'bg-white' : 'bg-gray-100 pointer-events-none', 'flex h-auto flex-col px-3 py-2 hover:bg-gray-100']"> 
-              <time :datetime="day" :class="[day == currentDate && 'flex h-6 w-6 items-center justify-center rounded-full bg-orange-400', 'ml-auto']">{{ day.split('-').slice(-2).reverse().pop().replace(/^0/, '') }}</time>  <!--  -->
+              <time :datetime="day" :class="[day == currentDate && 'flex h-6 w-6 items-center justify-center rounded-full bg-orange-400', 'ml-auto']">{{ day.split('-').slice(-2).reverse().pop().replace(/^0/, '') }}</time>
 
             <!-- <span class="sr-only">{{ day.events.length }} events</span>
             <span v-if="day.events.length > 0" class="-mx-0.5 mt-auto flex flex-wrap-reverse">
