@@ -42,7 +42,7 @@
           </svg>
         </button>
         <div class="pb-7 flex justify-center">
-          <a href="User/SignIn">
+          <a href="MyJournal">
             <img
               class="w-20 h-20"
               src="../assets/journal.png"
