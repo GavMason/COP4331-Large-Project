@@ -59,7 +59,6 @@
             <button
               type="submit"
               class="transition ease-in-out duration-300 hover:-translate-y-1 bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onclick="verifyLogin()"
             >
               Log In
             </button>
@@ -79,18 +78,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-const username = ref('')
-const password = ref('')
+import { useRouter } from 'vue-router'
 
-function handleSubmit(){
-  const data = {
-    username: username.value,
-    password: password.value
-  }
+const router = useRouter()
+function handleSubmit(event){
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
+  console.log(username);
+  console.log(password);
   // Send data to backend here!
-  fetch('/api/login', {
+  fetch('localhost:5000/api/SignIn', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
