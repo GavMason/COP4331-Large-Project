@@ -87,9 +87,6 @@ const getDays = () => {
   {
     datesBefore.push((parseInt(currentMonth.value) - 1) + '-' + (lastDateOfLastMonth - i + 1) + '-' + currentYear.value)
   }
-  console.log(currentMonth.value)
-  console.log(firstDayOfMonth)
-  console.log((lastDateOfLastMonth))
 
   for(let i=1; i <= lastDateOfMonth; i++)
   {
@@ -104,20 +101,18 @@ const getDays = () => {
     {
       datesAfter.push( (parseInt(currentMonth.value) + 1) + '-' + (i - lastDayOfMonth + 1) + '-' + currentYear.value)
     }
-    console.log(j)
     j++
   }
 
   // Combine results
   dates.value = datesCurrent.concat(datesAfter)
-  // console.log(dates.value)
 }
 getDays()
 
 function addMonth(){
   currentMonth.value = (parseInt(currentMonth.value) + 1).toString()
-  if(currentMonth.value > 11){
-    currentMonth.value = 0
+  if(currentMonth.value > 12){
+    currentMonth.value = 1
     currentYear.value = (parseInt(currentYear.value) + 1).toString()
   }
   getDays()
@@ -125,8 +120,8 @@ function addMonth(){
 
 function subMonth(){
   currentMonth.value = (parseInt(currentMonth.value) - 1).toString()
-  if(currentMonth.value < 0){
-    currentMonth.value = 11
+  if(currentMonth.value <= 0){
+    currentMonth.value = 12
     currentYear.value = (parseInt(currentYear.value) - 1).toString()
   }
   getDays()
