@@ -80,6 +80,7 @@
               required
             />
           </div>
+          <span id = "missingInfo"></span>
           <div class="grid gap-3 mt-4 p-1">
             <span id="missingInfo"></span>
             <button
@@ -105,7 +106,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue'
 const firstName = ref('')
@@ -125,13 +125,13 @@ function handleSubmit(){
 
   if(password.value !== confirmPassword.value){
     console.log("Passwords do not match");
-    // you can display an error message to the user here
+    document.getElementById("missingInfo").innerHTML = "Invalid username or password.";
+    document.getElementById("missingInfo").style.color = "red";
     return;
   }
 
   if(!validatePassword(password.value)){
     //Do not send to backend just yet. Ask the user to enter a valid password
-    console.log("Password does not meet validation requirements");
     return;
   }
 
@@ -162,27 +162,25 @@ function validatePassword(password){
     number: /\d/,
     uppercase: /[A-Z]/
   }
-
   if (!regex.specialChar.test(password)) {
-    alert('Password must contain at least one special character');
+    console.log("Password does not have a special character");
+    document.getElementById("missingInfo").innerHTML = "Password must contain at least one special character.";
+    document.getElementById("missingInfo").style.color = "red";
     return false;
   }
-
   if (!regex.number.test(password)) {
-    alert('Password must contain at least one number');
+    console.log("Password does not contain a number");
+    document.getElementById("missingInfo").innerHTML = "Password must contain a number.";
+    document.getElementById("missingInfo").style.color = "red";
     return false;
   }
-
   if (!regex.uppercase.test(password)) {
-    alert('Password must contain at least one uppercase letter');
+    console.log("Password does not contain an uppercase character");
+    document.getElementById("missingInfo").innerHTML = "Password must contain an uppercase character.";
+    document.getElementById("missingInfo").style.color = "red";
     return false;
   }
-
   return true;
 }
 
 </script>
-
-<style>
-@import "/node_modules/animate.css"
-</style>
