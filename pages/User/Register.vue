@@ -17,7 +17,6 @@
         </div>
         <form @submit.prevent="handleSubmit" class="" name="login">
           <div class="flex flex-wrap">
-            <!-- <label class="block text-gray-700 text-sm font-bold mb-2" for="username" ></label> -->
             <div class="w-full md:w-1/2 p-1">
               <input
                 id="first-name"
@@ -42,9 +41,6 @@
               class="block text-gray-700 text-sm font-bold mb-2"
               for="username"
             >
-              <!-- <svg style="height: 1em; width: 1em">
-                      <use xlink:href="#userIcon"></use>
-                  </svg> -->
             </label>
             <input
               id="username"
@@ -59,9 +55,6 @@
               class="block text-gray-700 text-sm font-bold mb-2"
               for="password"
             >
-              <!-- <svg style="height: 1em; width: 1em;">
-                      <use xlink:href="#userPass"></use>
-                  </svg> -->
             </label>
             <input
               id="password"
@@ -73,7 +66,7 @@
           </div>
           <div class="flex mt-4 p-1">
             <input
-              id="confirm-password"
+              id="confirmPassword"
               type="password"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Confirm Password"
@@ -107,80 +100,69 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
-const firstName = ref('')
-const lastName = ref('')
-const username = ref('')
-const password = ref('')
-const confirmPassword = ref('')
+  import { useRouter } from 'vue-router'
 
-function handleSubmit(){
-  const data = {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    username: username.value,
-    password: password.value,
-    confirmPassword: confirmPassword.value
-  }
+  const router = useRouter()
 
-  if(password.value !== confirmPassword.value){
-    console.log("Passwords do not match");
-    document.getElementById("missingInfo").innerHTML = "Invalid username or password.";
-    document.getElementById("missingInfo").style.color = "red";
-    return;
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
 
-  if(!validatePassword(password.value)){
-    //Do not send to backend just yet. Ask the user to enter a valid password
-    return;
-  }
+    let missingInfoMessage = '';
 
-  // Send data to backend here!
-  fetch('/api/register',{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    if(response.ok){
-      console.log("Registration Successful");
+    console.log(password + " --- " + confirmPassword);
+
+    if (password !== confirmPassword) {
+      missingInfoMessage += 'Passwords do not match.<br>';
     }
-    else{
-      console.log("Registration Failed");
+
+    const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+    if (!specialChars.test(password)) {
+      missingInfoMessage += 'Password should contain at least 1 special character (!@#$%^&*(),.?":{}|<>).<br>';
     }
-  })
-  .catch(error => {
-    console.log('Error during registration:', error);
-  });
-}
 
-function validatePassword(password){
-  const regex = {
-    specialChar: /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/,
-    number: /\d/,
-    uppercase: /[A-Z]/
-  }
-  if (!regex.specialChar.test(password)) {
-    console.log("Password does not have a special character");
-    document.getElementById("missingInfo").innerHTML = "Password must contain at least one special character.";
-    document.getElementById("missingInfo").style.color = "red";
-    return false;
-  }
-  if (!regex.number.test(password)) {
-    console.log("Password does not contain a number");
-    document.getElementById("missingInfo").innerHTML = "Password must contain a number.";
-    document.getElementById("missingInfo").style.color = "red";
-    return false;
-  }
-  if (!regex.uppercase.test(password)) {
-    console.log("Password does not contain an uppercase character");
-    document.getElementById("missingInfo").innerHTML = "Password must contain an uppercase character.";
-    document.getElementById("missingInfo").style.color = "red";
-    return false;
-  }
-  return true;
-}
+    const uppercaseChars = /[A-Z]/;
+    if (!uppercaseChars.test(password)) {
+      missingInfoMessage += 'Password should contain at least 1 uppercase letter.<br>';
+    }
 
+    const numbers = /[0-9]/;
+    if (!numbers.test(password)) {
+      missingInfoMessage += 'Password should contain at least 1 number.<br>';
+    }
+
+    if (missingInfoMessage !== '') {
+      document.getElementById('missingInfo').innerHTML = missingInfoMessage;
+      document.getElementById('missingInfo').style.color = 'red';
+      return;
+    }
+
+    //router.push('/myjournal')
+    // send data to backend here!
+    const data = {firstName, lastName, username, password};
+    fetch('localhost:5000/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      if(response.ok){
+        console.log('Registration Successful');
+        console.log('This is where we should push to myJournal');
+        router.push('/myjournal')
+      }
+      else{
+        console.log('Registration Failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error during registration:', error);
+    });
+  };
 </script>
