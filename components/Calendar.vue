@@ -49,9 +49,9 @@
 </template>
 
 <script setup>
-import { useCounterStore } from '@/stores/store'
+import { useDayStore } from '@/stores/store'
 
-const store = useCounterStore()
+const store = useDayStore()
 
 const months = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"]

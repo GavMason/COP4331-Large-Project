@@ -102,9 +102,9 @@
 
 
 <script setup>
-  import { useCounterStore } from '@/stores/store'
+  import { useUserStore } from '@/stores/user'
 
-  const store = useCounterStore()
+  const store = useUserStore()
 
   async function handleSubmit(event) {
     // event.preventDefault();

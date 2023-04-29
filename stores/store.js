@@ -1,18 +1,14 @@
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', {
+export const useDayStore = defineStore('day', {
   state: () => {
     return { 
       currentDay: '',
-      userID: ''
    }
   },
   actions: {
     updateDay(val) {
       this.currentDay = val
-    },
-    updateUser(val) {
-      this.userID = val
     },
   },
 })

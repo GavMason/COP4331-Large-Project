@@ -124,8 +124,8 @@
 
 <script setup>
   // Set up store
-  import { useCounterStore } from '@/stores/store'
-  const store = useCounterStore()
+  import { useDayStore } from '@/stores/store'
+  const store = useDayStore()
 
   // Modal open state
   let isOpen = ref(false)

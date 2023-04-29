@@ -47,13 +47,15 @@
 </template>
 
 <script setup>
-import { useCounterStore } from "@/stores/store";
+import { useDayStore } from "@/stores/store";
+import { useUserStore } from "@/stores/user"
 
 defineProps({
   show: Boolean,
 });
 
-const store = useCounterStore();
+const store = useDayStore();
+const userStore = useUserStore();
 let textContent = ref("");
 
 function clearText() {
@@ -63,7 +65,8 @@ function clearText() {
 function handleSubmit() {
   const text = document.getElementById("message").value;
   const date = store.currentDay;
-  const userid = "useridtest";
+  const userid = userStore.userID;
+  console.log(userid)
 
   const data = { userid, text, date };
   console.log(data);

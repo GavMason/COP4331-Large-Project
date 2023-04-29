@@ -41,9 +41,9 @@
 
 <script setup>
 
-import { useCounterStore } from '@/stores/store'
+import { useUserStore } from '@/stores/user'
 
-const store = useCounterStore()
+const store = useUserStore()
 store.updateUser('')  
 
 </script>
