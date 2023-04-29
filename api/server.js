@@ -80,7 +80,7 @@ app.post('/api/addEntry', async (req, res, next) =>
     //INSERT DB NAME
     const db = client.db('JournalEntriesDB');
     // INSERT COLLECTION NAME
-    const result = db.collection('Entries').insertOne(newEntry);
+    const result = await db.collection('Entries').insertOne(newEntry);
     const dt = Date.now()
     db.collection('users').updateOne({_id:userId},{$set: {LastEntry: dt}});
   }
@@ -108,7 +108,7 @@ app.post('/api/register', async (req, res, next) =>
     //INSERT DB NAME
     const db = client.db('JournalEntriesDB');
     // INSERT COLLECTION NAME
-    const result = db.collection('users').insertOne(newUser);
+    const result = await db.collection('users').insertOne(newUser);
     const results = await db.collection('users').find({Username:username,Password:password}).toArray();
     var id = -1;
   
@@ -138,7 +138,7 @@ app.post('/api/updateUser', async (req, res, next) =>
 	
   const { userId, firstName, lastName, emailAddress } = req.body;
 
-  const newUser = {FirstName:firstName,LastName:lastName,email:emailAddress};
+  const newUser = {$set: {FirstName:firstName,LastName:lastName,email:emailAddress}};
   var error = '';
 
   try
@@ -146,7 +146,7 @@ app.post('/api/updateUser', async (req, res, next) =>
     //INSERT DB NAME
     const db = client.db('JournalEntriesDB');
     // INSERT COLLECTION NAME
-    const result = db.collection('users').updateOne({_id:userId},{$set: newUser});
+    const result = await db.collection('users').updateOne({_id:userId},{newUser});
   }
   catch(e)
   {
