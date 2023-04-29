@@ -53,6 +53,20 @@
           <div class="flex mt-4 p-1">
             <label
               class="block text-gray-700 text-sm font-bold mb-2"
+              for="email"
+            >
+            </label>
+            <input
+              id="email"
+              type="text"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="email"
+              required
+            />
+          </div>
+          <div class="flex mt-4 p-1">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
               for="password"
             >
             </label>
@@ -112,6 +126,7 @@
       firstName: document.getElementById('first-name').value,
       lastName: document.getElementById('last-name').value,
       username: document.getElementById('username').value,
+      email: document.getElementById('email').value,
       password: document.getElementById('password').value,
       confirmPassword: document.getElementById('confirmPassword').value
     } 
@@ -120,6 +135,12 @@
     let missingInfoMessage = '';
 
     console.log(data.password + " --- " + data.confirmPassword);
+
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(data.email)) {
+      missingInfoMessage += 'Email address is not valid.<br>';
+    }
+
 
     if (data.password !== data.confirmPassword) {
       missingInfoMessage += 'Passwords do not match.<br>';
@@ -171,10 +192,5 @@
     console.error('Error during regrestraion:', error);
     throw error;
   }
- 
-
-
-
-
-  };
+};
 </script>
