@@ -142,7 +142,6 @@ function subMonth(){
   getDays()
 }
 async function getEntries(data){
-  console.log(JSON.stringify(data))
   try {
       const response = await fetch('http://167.172.132.244/api/searchEntries', {
         method: 'POST',
@@ -155,7 +154,6 @@ async function getEntries(data){
       if (response.ok) {
         console.log("Search Passed");
         const jsonData = await response.json()
-        console.log(jsonData)
         return jsonData.results;
       } else {
         console.log("Search Failed");

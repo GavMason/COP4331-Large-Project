@@ -9,7 +9,6 @@ export const useUserStore = defineStore('user', {
   actions: {
     updateUser(val) {
       this.userID = val
-      console.log(this.userID)
     },
   },
   persist: true,

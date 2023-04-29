@@ -134,7 +134,6 @@
 
     let missingInfoMessage = '';
 
-    console.log(data.password + " --- " + data.confirmPassword);
 
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(data.email)) {

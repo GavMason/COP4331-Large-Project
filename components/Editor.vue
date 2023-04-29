@@ -66,10 +66,8 @@ async function handleSubmit() {
   const text = document.getElementById("message").value;
   const date = store.currentDay;
   const userid = userStore.userID;
-  console.log(userid)
 
   const data = { userid, text, date };
-  console.log(data);
 
     try {
       const response = await fetch('http://167.172.132.244/api/addEntry', {
@@ -83,7 +81,6 @@ async function handleSubmit() {
       if (response.ok) {
         document.getElementById("Info").innerHTML = "Entry successfully added";
         document.getElementById("Info").style.color = "MediumSeaGreen";
-        console.log(response)
         return;
       } else {
         console.log("Entry Failed");
