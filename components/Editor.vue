@@ -89,7 +89,7 @@ async function handleSubmit() {
         console.log("Entry Failed");
       }
     } catch(error) {
-      console.error("Error during registration:", error);
+      console.error("Error during adding entry:", error);
       throw error;
     }
 

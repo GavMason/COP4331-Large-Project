@@ -50,8 +50,10 @@
 
 <script setup>
 import { useDayStore } from '@/stores/store'
+import { useUserStore } from '@/stores/user'
 
 const store = useDayStore()
+const userStore = useUserStore()
 
 const months = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"]
@@ -65,8 +67,9 @@ let currentYear = ref(date.toLocaleString("default", {year: "numeric"}))
 let currentDate = currentMonth.value + '-' + currentDay + '-' + currentYear.value
 
 let dates = ref([])
+let entries = ref([])
 
-const getDays = () => {
+const getDays = async() => {
   // Clear Array
   dates.value.splice(0)
 
@@ -106,6 +109,18 @@ const getDays = () => {
 
   // Combine results
   dates.value = datesCurrent.concat(datesAfter)
+
+
+
+  // Get entries
+  let data = {    
+    id: userStore.userID,
+    startDate: currentMonth.value + '-' + '1' + '-' + currentYear.value,
+    endDate: currentMonth.value + '-' + lastDateOfMonth + '-' + currentYear.value,
+  }
+  entries.value = await getEntries(data)
+  console.log(entries.value)
+  
 }
 getDays()
 
@@ -125,6 +140,30 @@ function subMonth(){
     currentYear.value = (parseInt(currentYear.value) - 1).toString()
   }
   getDays()
+}
+async function getEntries(data){
+  console.log(JSON.stringify(data))
+  try {
+      const response = await fetch('http://167.172.132.244/api/searchEntries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        console.log("Search Passed");
+        const jsonData = await response.json()
+        console.log(jsonData)
+        return jsonData.results;
+      } else {
+        console.log("Search Failed");
+      }
+    } catch(error) {
+      console.error("Error during searching:", error);
+      throw error;
+    }
 }
 
 </script>
