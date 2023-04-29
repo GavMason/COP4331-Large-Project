@@ -62,7 +62,7 @@ function clearText() {
   this.textContent = "";
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   const text = document.getElementById("message").value;
   const date = store.currentDay;
   const userid = userStore.userID;
@@ -71,24 +71,29 @@ function handleSubmit() {
   const data = { userid, text, date };
   console.log(data);
 
-  fetch("localhost:5000/api/addEntry", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
+    try {
+      const response = await fetch('http://167.172.132.244/api/addEntry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
       if (response.ok) {
         document.getElementById("Info").innerHTML = "Entry successfully added";
-        document.getElementById("Info").style.color = "red";
+        document.getElementById("Info").style.color = "MediumSeaGreen";
+        console.log(response)
         return;
       } else {
         console.log("Entry Failed");
       }
-    })
-    .catch((error) => {
+    } catch(error) {
       console.error("Error during registration:", error);
-    });
+      throw error;
+    }
+
+
+
 }
 </script>

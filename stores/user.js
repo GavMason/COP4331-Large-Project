@@ -12,5 +12,5 @@ export const useUserStore = defineStore('user', {
       console.log(this.userID)
     },
   },
-  persist: true
+  persist: true,
 })
