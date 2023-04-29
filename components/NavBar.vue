@@ -51,7 +51,7 @@
           </a>
         </div>
         <button
-          @click="$emit('add'); store.updateDay(currentDate) "
+          @click="$emit('add'); store.updateDay(currentDate);  isOpen = !isOpen"
           type="button"
           class="w-full flex justify-around p-6 border-dark dark:hover:bg-black-900 dark:hover:text-white hover:bg-yellow-800"
         >
