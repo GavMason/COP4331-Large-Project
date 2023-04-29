@@ -38,3 +38,12 @@
     </div>
   </div>
 </template>
+
+<script setup>
+
+import { useCounterStore } from '@/stores/store'
+
+const store = useCounterStore()
+store.updateUser('')  
+
+</script>

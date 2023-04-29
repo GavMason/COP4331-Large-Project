@@ -78,35 +78,46 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+  import { useCounterStore } from '@/stores/store'
 
-const router = useRouter()
-function handleSubmit(event){
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+  const store = useCounterStore() 
 
-  console.log(username);
-  console.log(password);
-  // Send data to backend here!
-  fetch('localhost:5000/api/SignIn', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
+async function handleSubmit(event){
+  let data = {
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value
+  }
+
+  try {
+    const response = await fetch('http://167.172.132.244/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
     if(response.ok){
       console.log('Login Successful');
+      const jsonData = await response.json();
+      store.updateUser(jsonData.id)
+      navigateTo('/MyJournal')
     }
     else{
       console.log('Login Failed');
+      throw new Error('Login Failed');
     }
-  })
-  .catch(error => {
+  } catch(error) {
     console.error('Error during login:', error);
-  });
+    throw error;
+  }
+ 
+  
+
 }
+
+
+
 </script>
 
 

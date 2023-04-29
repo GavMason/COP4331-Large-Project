@@ -99,39 +99,44 @@
     </div>
   </div>
 </template>
+
+
 <script setup>
-  import { useRouter } from 'vue-router'
+  import { useCounterStore } from '@/stores/store'
 
-  const router = useRouter()
+  const store = useCounterStore()
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const firstName = document.getElementById('first-name').value;
-    const lastName = document.getElementById('last-name').value;
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+  async function handleSubmit(event) {
+    // event.preventDefault();
+    let data = {
+      firstName: document.getElementById('first-name').value,
+      lastName: document.getElementById('last-name').value,
+      username: document.getElementById('username').value,
+      password: document.getElementById('password').value,
+      confirmPassword: document.getElementById('confirmPassword').value
+    } 
+
 
     let missingInfoMessage = '';
 
-    console.log(password + " --- " + confirmPassword);
+    console.log(data.password + " --- " + data.confirmPassword);
 
-    if (password !== confirmPassword) {
+    if (data.password !== data.confirmPassword) {
       missingInfoMessage += 'Passwords do not match.<br>';
     }
 
     const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
-    if (!specialChars.test(password)) {
+    if (!specialChars.test(data.password)) {
       missingInfoMessage += 'Password should contain at least 1 special character (!@#$%^&*(),.?":{}|<>).<br>';
     }
 
     const uppercaseChars = /[A-Z]/;
-    if (!uppercaseChars.test(password)) {
+    if (!uppercaseChars.test(data.password)) {
       missingInfoMessage += 'Password should contain at least 1 uppercase letter.<br>';
     }
 
     const numbers = /[0-9]/;
-    if (!numbers.test(password)) {
+    if (!numbers.test(data.password)) {
       missingInfoMessage += 'Password should contain at least 1 number.<br>';
     }
 
@@ -141,28 +146,35 @@
       return;
     }
 
-    //router.push('/myjournal')
     // send data to backend here!
-    const data = {firstName, lastName, username, password};
-    fetch('localhost:5000/api/register', {
+
+    try {
+    const response = await fetch('http://167.172.132.244/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    })
-    .then(response => {
-      if(response.ok){
-        console.log('Registration Successful');
-        console.log('This is where we should push to myJournal');
-        router.push('/myjournal')
-      }
-      else{
-        console.log('Registration Failed');
-      }
-    })
-    .catch(error => {
-      console.error('Error during registration:', error);
     });
+
+    if(response.ok){
+      console.log('Registration Successful');
+      const jsonData = await response.json();
+      store.updateUser(jsonData.id)
+      navigateTo('/MyJournal')
+    }
+    else{
+      console.log('Registration Failed');
+      throw new Error('Registration Failed');
+    }
+  } catch(error) {
+    console.error('Error during regrestraion:', error);
+    throw error;
+  }
+ 
+
+
+
+
   };
 </script>
